@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>My Programming Portfolio</title>
+  </head>
+  <h1>
+    <img src="https://raw.githubusercontent.com/vmdelmar/vmdelmar.github.io/main/myBanner.jpg"><br></h1>
+  <body>
+    <table>
+      <tbody>
+        <tr>
+          <td> <a href="https://vmdelmar.github.io/">
+            <img src="https://raw.githubusercontent.com/vmdelmar/vmdelmar.github.io/main/home.png"></td>
+          <td> <a href="https://vmdelmar.github.io/about.html"> 
+            <img src="https://raw.githubusercontent.com/vmdelmar/vmdelmar.github.io/main/AboutMe.png"></td>
+          <td> <a href="https://vmdelmar.github.io/javascripts.html"> 
+            <img src="https://raw.githubusercontent.com/vmdelmar/vmdelmar.github.io/main/javascripts.png"></td>
+          <td> <a href="https://vmdelmar.github.io/Apps.html"> 
+            <img src="https://raw.githubusercontent.com/vmdelmar/vmdelmar.github.io/main/Apps.png"></td>
+        </tr>
+      </tbody>
+    </table><br>
+    <h2>Welcome to My Programming Portfolio</h2><br>
+    <p>My name is Vanessa DelMar. This website will showcase some of the learning I have done is CSC 106.<br>
+    I'm completely new to this so I'm excited to see how much I'll be able to acommplish in the next weeks.</p>
+  </body>
+  
+</html>
