@@ -4,9 +4,8 @@ body { background-color: #b4ebf0;}
 
 #nav-td {width: 200px; text-align:center;}
 
-p { text-align: center;
-}
-div {
-  max-width: 500px;}
-h { text-align: center;
-}
+p { text-align: center;}
+
+div { max-width: 400px;}
+
+h { text-align: center;}
