@@ -1,4 +1,9 @@
-body { background-color: #b4ebf0;}
+body { background-color: #b4ebf0;
+                width: 800px;
+  
+                margin-right:auto;
+                margin-left:auto;
+            }
 
 #nav-table { width 800px;}
 
