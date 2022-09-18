@@ -6,6 +6,8 @@ body { background-color: #b4ebf0;}
 
 p { text-align: center;}
 
-div { max-width: 200px;}
+div.ex1 {
+  width: 800px;
+  margin: auto;}
 
 h { text-align: center;}
