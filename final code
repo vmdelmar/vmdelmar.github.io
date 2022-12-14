@@ -1,0 +1,257 @@
+var currentScene = 1; // sets current scene
+var startTime = null; // start time for timer
+var numMatches = 0; // sets the number of matches
+var numTries = 0; // sets the number of tries
+
+var drawBitmoji = function (x, y,myHeight){
+var drawHead = function (x, y, myHeight) 
+{fill(203, 132, 66);
+rect(x-(myHeight/150*23), y+(myHeight/150*40), myHeight/150*45, myHeight/150*21); // neck
+ellipse(x+(myHeight/150*0), y-(myHeight/150*0), myHeight/150*85, myHeight/150*100); // head
+fill (0, 0, 0);
+quad(x-(myHeight/150*47), y-(myHeight/150*4), x-(myHeight/150*39), y-(myHeight/150*47), x-(myHeight/150*4), y-(myHeight/150*47), x-(myHeight/150*32), y-(myHeight/150*14)); //left hair
+quad(x+(myHeight/150*45), y-(myHeight/150*6), x+(myHeight/150*35), y-(myHeight/150*52), x-(myHeight/150*3), y-(myHeight/150*43), x+(myHeight/150*35), y-(myHeight/150*11)); // right hair
+fill (250, 154, 0);
+arc(x+(myHeight/150*2), y-(myHeight/150*35), myHeight/150*86, myHeight/150*85, 174, 366); // hard hat
+line(x+(myHeight/150+20), y-(myHeight/150*33), x-(myHeight/150*41), y-(myHeight/150*32)); // hard hat
+stroke(255, 255, 255);
+fill(0, 0, 0);
+rect(x-(myHeight/150*28), y-(myHeight/150*9), myHeight/150*23, myHeight/150*17); // left glasses
+rect(x+(myHeight/150*4), y-(myHeight/150*10), myHeight/150*23, myHeight/150*17); // right glasses
+line(x-(myHeight/150*5), y-(myHeight/150*2), x+(myHeight/150*3), y-(myHeight/150*2)); // glasses bridge
+line(x-(myHeight/150*42), y-(myHeight/150*4), x-(myHeight/150*25), y+(myHeight/150*2)); // glass bridge left
+line(x+(myHeight/150*24), y-(myHeight/150*2), x+(myHeight/150*39), y-(myHeight/150*2)); // glass bridge right
+fill(217, 213, 213);
+ellipse(x-(myHeight/150*42), y+6*myHeight/150, 10*myHeight/150, 10*myHeight/150); // left earring
+ellipse(x+(myHeight/150*42), y+(myHeight/150*5), myHeight/150*11, myHeight/150*12); // right earring
+fill(196, 109, 33);
+bezier (x+myHeight/150, y+(myHeight/150*6), x+(myHeight/150*9), y+(myHeight/150*20), x+(myHeight/150*2), y+(myHeight/150*27), x-(myHeight/150*3), y+(myHeight/150*18)); //nose
+fill(252, 252, 252);
+arc(x+(myHeight/150*3), y+(myHeight/150*25), myHeight/150*30, myHeight/150*13, 1, 180);// smile
+line(x-(myHeight/150*14), y+(myHeight/150*24), x+(myHeight/150*19), y+(myHeight/150*24)); // top of mouth
+};
+
+var drawBody = function (x, y, myHeight)
+{fill(203, 132, 66);
+quad(x+(myHeight/150*83), y+(myHeight/150*159), x-(myHeight/150*68), y+(myHeight/150*157), x-(myHeight/150*42), y+(myHeight/150*53), x+(myHeight/150*47), y+(myHeight/150*56)); //body
+fill(145, 0, 31);
+arc(x+(myHeight/150*50), y+(myHeight/150*94), myHeight/150*70, myHeight/150*100, 44, 232); // right suit
+arc(x-(myHeight/150*50), y+(myHeight/150*96), myHeight/150*100, myHeight/150*103, -54, 104);// left suit
+ellipse(x+(myHeight/150*8), y+(myHeight/150*121), myHeight/150*70 ,myHeight/150*52); // bottom suit
+fill(0, 0, 0);
+textSize(myHeight/150*43);
+text("VD", x-(myHeight/150*22),y+(myHeight/150*105), myHeight/150*47, myHeight/150*65);
+fill(240, 200, 67);
+triangle(x+(myHeight/150*6), y+(myHeight/150*74), x+(myHeight/150*22), y+(myHeight/150*58), x-(myHeight/150*10), y+(myHeight/150*55));};
+drawHead(x,y,myHeight); // my bitmojie
+drawBody(x,y,myHeight);  
+}; // sets bitmojie
+
+// Khan academy button code
+var Button = function(config) {
+    this.x = config.x || 0;
+    this.y = config.y || 0;
+    this.width = config.width || 150;
+    this.height = config.height || 50;
+    this.label = config.label || "Click";
+    this.onClick = config.onClick || function() {};
+    this.background = config.background || [0,0,0];
+};
+
+Button.prototype.draw = function() {
+    fill(this.background[0], this.background[1], this.background[2]);
+    rect(this.x, this.y, this.width, this.height, 5);
+    fill(0, 0, 0);
+    textSize(19);
+    textAlign(LEFT, TOP);
+    text(this.label, this.x+10, this.y+this.height/4);
+};
+
+Button.prototype.changeColor = function(newColor) {
+    fill(newColor[0], newColor[1], newColor[2]);
+};
+
+Button.prototype.isMouseInside = function() {
+    return mouseX > this.x &&
+           mouseX < (this.x + this.width) &&
+           mouseY > this.y &&
+           mouseY < (this.y + this.height);
+};
+
+Button.prototype.handleMouseClick = function() {
+    if (this.isMouseInside()) {
+        this.onClick();
+    }
+};
+
+// the button itself
+var btn1 = new Button({
+    x: 30,
+    y: 330,
+    width: 60,
+    label: "Start",
+    background: [27, 207, 207],
+    onClick: function() {
+        currentScene = 0;
+    }
+});
+
+var drawScene1 = function() {
+    currentScene = 0;
+    fill(0, 0, 0);
+    background(71, 150, 83);
+    textSize(25);
+    text("Final Project", 120, 100       );
+    text("Author: Vanessa DelMar", 40,     140);
+    drawBitmoji(345, 310, 79);
+    btn1.draw();
+    
+}; 
+// splash main screen
+drawScene1(0,0);
+var Tile = function(x, y, face) {
+    this.x = x;
+    this.y = y;
+    this.face = face;
+    this.size = 50;
+};
+
+Tile.prototype.drawFaceDown = function() {
+    fill(214, 247, 202);
+    strokeWeight(2);
+    rect(this.x, this.y, this.size, this.size, 10);
+    image(getImage("avatars/leaf-green"), this.x, this.y, this.size, this.size);
+    this.isFaceUp = false;
+};
+
+Tile.prototype.drawFaceUp = function() {
+    fill(214, 247, 202);
+    strokeWeight(2);
+    rect(this.x, this.y, this.size, this.size, 10);
+    image(this.face, this.x, this.y, this.size, this.size);
+    this.isFaceUp = true;
+};
+
+Tile.prototype.isUnderMouse = function(x, y) {
+    return x >= this.x && x <= this.x + this.size  &&
+        y >= this.y && y <= this.y + this.size;
+};
+
+// Global config
+var NUM_COLS = 5;
+var NUM_ROWS = 4;
+
+// Declare an array of all possible faces
+var faces = [
+    getImage("avatars/leafers-seed"),
+    getImage("avatars/leafers-seedling"),
+    getImage("avatars/leafers-sapling"),
+    getImage("avatars/leafers-tree"),
+    getImage("avatars/leafers-ultimate"),
+    getImage("avatars/marcimus"),
+    getImage("avatars/mr-pants"),
+    getImage("avatars/mr-pink"),
+    getImage("avatars/old-spice-man"),
+    getImage("avatars/robot_female_1")
+];
+
+// Make an array which has 2 of each, then randomize it
+var possibleFaces = faces.slice(0);
+var selected = [];
+for (var i = 0; i < 10; i++) {
+    Randomly pick one from the array of remaining faces
+    var randomInd = floor(random(possibleFaces.length));
+    var face = possibleFaces[randomInd];
+    Push 2 copies onto array
+    selected.push(face);
+    selected.push(face);
+    Remove from array
+    possibleFaces.splice(randomInd, 1);
+}
+
+// Now shuffle the elements of that array
+var shuffleArray = function(array) {
+    var counter = array.length;
+
+    // While there are elements in the array
+    while (counter > 0) {
+        // Pick a random index
+        var ind = Math.floor(Math.random() * counter);
+        // Decrease counter by 1
+        counter--;
+        // And swap the last element with it
+        var temp = array[counter];
+        array[counter] = array[ind];
+        array[ind] = temp;
+    }
+};
+shuffleArray(selected);
+
+// Create the tiles
+var tiles = [];
+for (var i = 0; i < NUM_COLS; i++) {
+    for (var j = 0; j < NUM_ROWS; j++) {
+        var tileX = i * 54 + 10;
+        var tileY = j * 54 + 40;
+        var tileFace = selected.pop();
+        tiles.push(new Tile(tileX, tileY, tileFace));
+    }
+}
+
+//background(255, 255, 255);
+
+// Now draw them face down
+for (var i = 0; i < tiles.length; i++) {
+    tiles[i].drawFaceDown();
+}
+
+var flippedTiles = [];
+var delayStartFC = null;
+
+mouseClicked = function() {
+    btn1.handleMouseClick();
+    for (var i = 0; i < tiles.length; i++) {
+        if (tiles[i].isUnderMouse(mouseX, mouseY)) {
+            if (flippedTiles.length < 2 && !tiles[i].isFaceUp) {
+                tiles[i].drawFaceUp();
+                flippedTiles.push(tiles[i]);
+                if (flippedTiles.length === 2) {
+                    if (flippedTiles[0].face === flippedTiles[1].face) {
+                        flippedTiles[0].isMatch = true;
+                        flippedTiles[1].isMatch = true;
+                    }
+                    delayStartFC = frameCount;
+                    loop();
+                }
+            } 
+        }
+    }
+};
+
+draw = function() {
+    if (currentScene === 0) { // splash screen
+        drawScene1();
+    }
+    else if (
+    (currentScene === 1)) { 
+    background(255, 255, 255); // the game scene
+    fill(0, 0, 0);
+    textSize(18);
+    //if (startTime === null) {
+            startTime = millis();
+            } // for timer
+    else {
+    //text("Attempts: " + numTries + ", Timer: " + round ((millis() - startTime)/1000), 10, 10);  
+    }  // added attempts and timer to top - rounds the millis to a whole number
+    if (delayStartFC && (frameCount - delayStartFC) > 30) {
+        for (var i = 0; i < tiles.length; i++) {
+            var tile = tiles[i];
+            if (!tile.isMatch) {
+                tile.isFaceUp = false;
+            } // memory game screen
+        }
+        flippedTiles = [];
+        delayStartFC = null;
+    }
+    }
+};
