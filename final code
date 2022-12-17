@@ -2,6 +2,8 @@ var currentScene = 1; // sets current scene
 var startTime = null; // start time for timer
 var numMatches = 0; // sets the number of matches
 var numTries = 0; // sets the number of tries
+var flippedTiles = []; // flipped tiles array
+var delayStartFC = null;
 
 var drawBitmoji = function (x, y,myHeight){
 var drawHead = function (x, y, myHeight) 
@@ -92,10 +94,11 @@ var btn1 = new Button({
     label: "Start",
     background: [27, 207, 207],
     onClick: function() {
-        currentScene = 0;
+        currentScene = 1;
     }
 });
 
+//
 var drawScene1 = function() {
     currentScene = 0;
     fill(0, 0, 0);
@@ -109,10 +112,11 @@ var drawScene1 = function() {
 }; 
 // splash main screen
 drawScene1(0,0);
-var Tile = function(x, y, face) {
+
+var Tile = function(x, y, word) {// switched faces to word
     this.x = x;
     this.y = y;
-    this.face = face;
+    this.word = word;
     this.size = 50;
 };
 
@@ -123,12 +127,25 @@ Tile.prototype.drawFaceDown = function() {
     image(getImage("avatars/leaf-green"), this.x, this.y, this.size, this.size);
     this.isFaceUp = false;
 };
+Tile.prototype.draw = function() {
+    fill(214, 247, 202);
+    strokeWeight(2);
+    rect(this.x, this.y, this.size, this.size, 10); // copied from lesson
+    if (this.isFaceUp) {
+        fill(0,0,0); // text color within box
+        text(this.word, this.x, this.y, this.size, this.size);
+        //image(this.face, this.x, this.y, this.size, this.size);
+    } else {
+        image(getImage("avatars/leaf-green"), this.x, this.y, this.size, this.size);
+    }
+};
 
 Tile.prototype.drawFaceUp = function() {
     fill(214, 247, 202);
     strokeWeight(2);
     rect(this.x, this.y, this.size, this.size, 10);
-    image(this.face, this.x, this.y, this.size, this.size);
+    fill(0, 0, 0); // text color
+    text(this.word, this.x, this.y, this.size, this.size); // switched to text instead of image 
     this.isFaceUp = true;
 };
 
@@ -138,54 +155,43 @@ Tile.prototype.isUnderMouse = function(x, y) {
 };
 
 // Global config
-var NUM_COLS = 5;
+var NUM_COLS = 6;
 var NUM_ROWS = 4;
 
-// Declare an array of all possible faces
-var faces = [
-    getImage("avatars/leafers-seed"),
-    getImage("avatars/leafers-seedling"),
-    getImage("avatars/leafers-sapling"),
-    getImage("avatars/leafers-tree"),
-    getImage("avatars/leafers-ultimate"),
-    getImage("avatars/marcimus"),
-    getImage("avatars/mr-pants"),
-    getImage("avatars/mr-pink"),
-    getImage("avatars/old-spice-man"),
-    getImage("avatars/robot_female_1")
-];
+// Declare an array of all possible antonyms
+var antonyms = ['add', 'subtract', 'above', 'below', 'after', 'before', 'awake', 'asleep', 'big', 'little', 'clean', 'dirty', 'open', 'closed', 'hot', 'cold', 'day', 'night', 'pass', 'fail', 'true', 'false', 'float', 'sink'];
+    
 
 // Make an array which has 2 of each, then randomize it
-var possibleFaces = faces.slice(0);
+var possibleAntonyms = antonyms.slice(0);
 var selected = [];
-for (var i = 0; i < 10; i++) {
-    Randomly pick one from the array of remaining faces
-    var randomInd = floor(random(possibleFaces.length));
-    var face = possibleFaces[randomInd];
-    Push 2 copies onto array
-    selected.push(face);
-    selected.push(face);
-    Remove from array
-    possibleFaces.splice(randomInd, 1);
+for (var i = 0; i < 24; i++) {
+    //Randomly pick one from the array of remaining faces
+    var randomInd = floor(random(possibleAntonyms.length));
+    var antonym = possibleAntonyms[randomInd];
+    //Push antonym onto array
+    selected.push(antonym);
+    //Remove from array
+    possibleAntonyms.splice(randomInd, 1); // switch faces to antonyms
 }
 
 // Now shuffle the elements of that array
-var shuffleArray = function(array) {
-    var counter = array.length;
-
+//var shuffleArray = function(array) {
+ //   var counter = array.length;
+//
     // While there are elements in the array
-    while (counter > 0) {
-        // Pick a random index
-        var ind = Math.floor(Math.random() * counter);
+  //  while (counter > 0) {
+  //      // Pick a random index
+   //     var ind = Math.floor(Math.random() * counter);
         // Decrease counter by 1
-        counter--;
+    //    counter--;
         // And swap the last element with it
-        var temp = array[counter];
-        array[counter] = array[ind];
-        array[ind] = temp;
-    }
-};
-shuffleArray(selected);
+  //      var temp = array[counter];
+  //      array[counter] = array[ind];
+  // array[ind] = temp;
+  //  }
+//};
+//shuffleArray(selected);
 
 // Create the tiles
 var tiles = [];
@@ -198,7 +204,7 @@ for (var i = 0; i < NUM_COLS; i++) {
     }
 }
 
-//background(255, 255, 255);
+background(255, 255, 255);
 
 // Now draw them face down
 for (var i = 0; i < tiles.length; i++) {
@@ -237,11 +243,11 @@ draw = function() {
     background(255, 255, 255); // the game scene
     fill(0, 0, 0);
     textSize(18);
-    //if (startTime === null) {
+    if (startTime === null) {
             startTime = millis();
             } // for timer
     else {
-    //text("Attempts: " + numTries + ", Timer: " + round ((millis() - startTime)/1000), 10, 10);  
+    text("Attempts: " + numTries + ", Timer: " + round ((millis() - startTime)/1000), 10, 10);  
     }  // added attempts and timer to top - rounds the millis to a whole number
     if (delayStartFC && (frameCount - delayStartFC) > 30) {
         for (var i = 0; i < tiles.length; i++) {
@@ -252,6 +258,16 @@ draw = function() {
         }
         flippedTiles = [];
         delayStartFC = null;
+}
+    for (var i = 0; i < tiles.length; i++) {
+        tiles[i].draw();
+    }
+    
+    if (numMatches === tiles.length/2) { // changed to 2 for 2 cards
+        fill(0, 0, 0);
+        textSize(20);
+        text("You found them all in " + numTries + " tries!", 20, 375); // shows when the game is done and won
+        noLoop();
     }
     }
 };
